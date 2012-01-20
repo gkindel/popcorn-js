@@ -12,6 +12,7 @@ Popcorn.player( "youtube", {
     var media = this,
         youtubeObject,
         container = document.createElement( "div" ),
+        readyState = 0,
         currentTime = 0,
         seekTime = 0,
         seeking = false,
@@ -75,9 +76,9 @@ Popcorn.player( "youtube", {
         };
 
         // youtube requires callbacks to be a string to a function path from the global scope
-        youtubeObject.addEventListener( "onStateChange", "onYouTubePlayerReady.stateChangeEventHandler." + container.id );
+        Popcorn.addEventListener( youtubeObject, "onStateChange", "onYouTubePlayerReady.stateChangeEventHandler." + container.id );
 
-        youtubeObject.addEventListener( "onError", "onYouTubePlayerReady.onErrorEventHandler." + container.id );
+        Popcorn.addEventListener( youtubeObject, "onError", "onYouTubePlayerReady.onErrorEventHandler." + container.id );
 
         var timeupdate = function() {
 
@@ -183,6 +184,15 @@ Popcorn.player( "youtube", {
           get: function() {
 
             return youtubeObject.getVolume() / 100;
+          }
+        });
+        Popcorn.player.defineProperty( media, "readyState", {
+          set: function( val ) {
+            readyState = val;
+            return readyState;
+          },
+          get: function() {
+            return readyState;
           }
         });
 

@@ -19,7 +19,7 @@
           return document.getElementById(id);
         }
         
-        document.addEventListener( 'DOMContentLoaded', function() {
+        Popcorn( function() {
           var paused = true,
               popcorn;
           
@@ -67,7 +67,7 @@
               id: "webpages-a", 
               start: 0, // seconds
               end: 15, // seconds
-              src: 'http://webmademovies.org/',
+              src: 'http://www.mozilla.org/',
               target: 'webpagediv'
             })
             .googlefeed({
@@ -104,42 +104,38 @@
             element( 'btn-play-pause' ).innerHTML = 'Play';
           });
 
-          // Setup UI after loaded
-          popcorn.listen( 'load', function() {
 
-            element( 'player-status' ).innerHTML = 'Ready';
-            element( 'player_vol' ).innerHTML = popcorn.volume();
+          element( 'player-status' ).innerHTML = 'Ready';
+          element( 'player_vol' ).innerHTML = popcorn.volume();
             
-            // Single play/pause button
-            element( 'btn-play-pause' ).addEventListener( 'click', function() {
-              if ( paused ) {
-                popcorn.play();
-              } else {
-                popcorn.pause();
-              }
-            }, false);
+          // Single play/pause button
+          Popcorn.addEventListener( element( 'btn-play-pause' ), 'click', function() {
+            if ( paused ) {
+              popcorn.play();
+            } else {
+              popcorn.pause();
+            }
+          }, false);
 
-            // Seek
-            element('btn-seek').addEventListener('click', function() {
+          // Seek
+          Popcorn.addEventListener( element('btn-seek'), 'click', function() {
+            popcorn.currentTime( 30 );
+          }, false);
 
-              popcorn.currentTime( 30 );
-            }, false);
+          // Volume
+          Popcorn.addEventListener( element('btn-volume'), 'click', function() {
+            var volume = (popcorn.volume() === 1) ? 0.5 : 1;
+            popcorn.volume(volume);
+          }, false);
 
-            // Volume
-            element('btn-volume').addEventListener('click', function() {
-              var volume = (popcorn.volume() === 1) ? 0.5 : 1;
-              popcorn.volume(volume);
-            }, false);
-            
-            element('btn-mute').addEventListener('click', function() {
-              popcorn.mute( !popcorn.media.muted );
-            }, false);
-          });
-        }, false );
+          Popcorn.addEventListener( element('btn-mute'), 'click', function() {
+            popcorn.mute( !popcorn.media.muted );
+          }, false);
+        });
     </script>
   </head>
   <body>
-    <div>
+  <div>
       <div>
         <div id="video" style="width: 360px; height: 300px;" ></div><br />
         <button class="simple" id="btn-play-pause">Play</button>
@@ -176,7 +172,7 @@
           <li>From 5 to 15 seconds, the Mozilla Drumbeat logo will appear below 'Image Area'.</li>
           <li>From 5 to 15 seconds, the subtitle 'This is overlaid on top of the video. You can hightlight it!' will appear in front of the video.</li>
           <li>From 0 to 20 seconds, blogs from 'http://zenit.senecac.on.ca/~chris.tyler/planet/rss20.xml' will appear below 'Google Feed Area'.</li>
-          <li>From 0 to 15 seconds, the site 'http://webmademovies.org/' will appear below 'Web Page Area'.</li>
+          <li>From 0 to 15 seconds, the site 'http://www.mozilla.org/' will appear below 'Web Page Area'.</li>
         </ul>
       </div>
       <div id="footnotediv" width="50%" height="50%">

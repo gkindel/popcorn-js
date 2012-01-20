@@ -80,7 +80,7 @@
         // add the widget's div to the target div
         target && target.appendChild( options.link );
 
-        img.addEventListener( "load", function() {
+        Popcorn.addEventListener(img, "load", function() {
 
           // borders look really bad, if someone wants it they can put it on their div target
           img.style.borderStyle = "none";
